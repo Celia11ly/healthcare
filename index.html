@@ -64,9 +64,9 @@ body {
     border-radius: 6px;
     transition: all 0.2s;
     font-size: 0.9rem;
-    border-left: 3px solid transparent;
+    border-left: 3px solid transparent; /* Be careful not to double borders with specific level classes */
 }
-.nav-link:hover { background-color: #F7FAFC; color: var(--primary); }
+.nav-link:hover { background-color: #F7FAFC; /* Subtler hover for generic */ }
 
 /* Level 1: Main Chapters */
 .nav-level-1 {
@@ -76,8 +76,9 @@ body {
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
     background-color: #EBF8FF;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-radius: 6px;
+    border-left: 5px solid #2B6CB0; /* Stronger L1 marker */
 }
 
 /* Level 2: Sub-sections */
@@ -85,22 +86,78 @@ body {
     font-weight: 600;
     font-size: 0.9rem;
     color: #2D3748;
-    margin-left: 0.5rem;
-    padding-left: 10px;
+    margin-left: 1rem; /* Indent L2 block */
+    padding-left: 12px;
     border-left: 2px solid #CBD5E0;
 }
-.nav-link.nav-level-2:hover { border-left-color: var(--secondary); }
+.nav-link.nav-level-2:hover { border-left-color: var(--secondary); background-color: #F7FAFC; }
 
 /* Level 3: Details */
-.nav-level-3 {
+.nav-link.nav-level-3 {
     font-weight: 400;
-    font-size: 0.85rem;
-    color: #718096;
-    margin-left: 1.2rem;
-    padding-left: 10px;
-    border-left: 1px dashed #CBD5E0;
+    font-size: 0.8rem !important; /* Force smaller size */
+    color: #64748B; /* Slate 500 - Distinct from L2 */
+    margin-left: 0; 
+    padding-left: 3.5rem; /* Large indent for L3 */
+    border-left: none;
 }
-.nav-link.nav-level-3:hover { color: var(--h4-color); }
+.nav-link.nav-level-3:hover { color: var(--h4-color); background-color: #F0FFF4; }
+
+
+/* Collapsible Nav Styles */
+.nav-group {
+    display: none;
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+    transition: all 0.3s ease;
+}
+
+.nav-item.expanded > .nav-group {
+    display: block;
+}
+
+.nav-item-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 0;
+    cursor: pointer;
+    width: 100%;
+}
+
+.nav-link {
+    flex: 1; /* Take up remaining space */
+    text-align: left;
+    display: block;
+    text-decoration: none;
+    color: #4A5568;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+}
+
+.nav-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #A0AEC0;
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+    margin-left: 4px; /* Changed from margin-right */
+}
+
+.nav-item.expanded > .nav-item-container .nav-toggle {
+    transform: rotate(90deg);
+}
+
+.nav-group .nav-link {
+    border-left: none !important;
+}
 
 
 /* ---------------- Main Content ---------------- */
@@ -121,6 +178,7 @@ body {
     font-weight: 900;
     background: linear-gradient(135deg, var(--primary) 0%, #2B6CB0 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -248,7 +306,235 @@ figcaption { color: #718096; margin-top: 1rem; font-style: italic; }
     <div class="nav-header">
         <div class="nav-title">行业洞察 2026</div>
     </div>
-    <ul class="nav-menu"><li class="nav-item"><a href="#s-0" class="nav-link nav-level-1">1. 行业分析</a></li><li class="nav-item"><a href="#s-1" class="nav-link nav-level-2">1.1 全球与中国医疗AI市场整体态势</a></li><li class="nav-item"><a href="#s-2" class="nav-link nav-level-2">1.2 中国医疗AI大模型市场分析</a></li><li class="nav-item"><a href="#s-3" class="nav-link nav-level-2">1.3 技术与政策核心趋势</a></li><li class="nav-item"><a href="#s-4" class="nav-link nav-level-1">2. 重点医疗大模型及相关平台分析、商业模式</a></li><li class="nav-item"><a href="#s-5" class="nav-link nav-level-2">2.1 互联网生态巨头 (Internet Ecosystem Giants)</a></li><li class="nav-item"><a href="#s-6" class="nav-link nav-level-3">2.1.1 百度灵医智惠（Baidu Lingyi）：搜索入口+AI基建</a></li><li class="nav-item"><a href="#s-7" class="nav-link nav-level-3">2.1.2 腾讯健康（Tencent Health）：社交连接+微信生态</a></li><li class="nav-item"><a href="#s-8" class="nav-link nav-level-3">2.1.3 蚂蚁医疗大模型矩阵（Ant Medical Matrix）：支付+信用+AI</a></li><li class="nav-item"><a href="#s-9" class="nav-link nav-level-3">2.1.4 京东健康（JD Health）：供应链+服务闭环</a></li><li class="nav-item"><a href="#s-10" class="nav-link nav-level-3">2.1.5 字节跳动小荷健康（Xiaohe Health）：算法+内容闭环</a></li><li class="nav-item"><a href="#s-11" class="nav-link nav-level-2">2.2 硬科技与国家队 (Tech Infrastructure & National Team)</a></li><li class="nav-item"><a href="#s-12" class="nav-link nav-level-3">2.2.1 华为盘古（Huawei Pangu）：算力+制药</a></li><li class="nav-item"><a href="#s-13" class="nav-link nav-level-3">2.2.2 讯飞星火医疗大模型（iFlytek）：语音交互+国家队</a></li><li class="nav-item"><a href="#s-14" class="nav-link nav-level-3">2.2.3 百川智能（Baichuan）：医疗大模型独角兽</a></li><li class="nav-item"><a href="#s-15" class="nav-link nav-level-2">2.3 互联网医疗服务平台 (Vertical Service Platforms)</a></li><li class="nav-item"><a href="#s-16" class="nav-link nav-level-3">2.3.1 平安健康（PingAn Health）：保险+家庭医生</a></li><li class="nav-item"><a href="#s-17" class="nav-link nav-level-3">2.3.2 春雨医生（Chunyu Doctor）：极速问诊</a></li><li class="nav-item"><a href="#s-18" class="nav-link nav-level-3">2.3.3 好大夫在线（HaoDF）：专业转诊</a></li><li class="nav-item"><a href="#s-19" class="nav-link nav-level-2">2.4 垂直创新与细分专家 (Specialized Innovators)</a></li><li class="nav-item"><a href="#s-20" class="nav-link nav-level-3">2.4.1 问止中医（Wenzhi）：中医大脑</a></li><li class="nav-item"><a href="#s-21" class="nav-link nav-level-3">2.4.2 博睿康（BrainCo）：脑机接口康复</a></li><li class="nav-item"><a href="#s-22" class="nav-link nav-level-3">2.4.3 点点专家（DianDian）：心理健康数字分身</a></li><li class="nav-item"><a href="#s-23" class="nav-link nav-level-2">2.5 综述：行业竞争格局与生态对比</a></li><li class="nav-item"><a href="#s-24" class="nav-link nav-level-3">2.5.1 中国医疗AI大模型竞争格局总结</a></li><li class="nav-item"><a href="#s-25" class="nav-link nav-level-3">2.5.2 四大流量生态医疗闭环终极对比 (The "Big Four")</a></li><li class="nav-item"><a href="#s-26" class="nav-link nav-level-1">3. 个人IP与平台结合的变现模式与经典案例</a></li><li class="nav-item"><a href="#s-27" class="nav-link nav-level-2">3.1 核心逻辑与商业全景 (Core Logic & Panorama)</a></li><li class="nav-item"><a href="#s-28" class="nav-link nav-level-3">3.1.1 医疗健康领域个人IP变现核心逻辑</a></li><li class="nav-item"><a href="#s-29" class="nav-link nav-level-3">3.1.2 商业模式全景图：四大阵营的变现逻辑</a></li><li class="nav-item"><a href="#s-30" class="nav-link nav-level-2">3.2 典型平台与变现模式深度解析（含AI介入场景）</a></li><li class="nav-item"><a href="#s-31" class="nav-link nav-level-3">3.2.1 知识星球：AI赋能私域社群与付费订阅模式</a></li><li class="nav-item"><a href="#s-32" class="nav-link nav-level-3">3.2.2 短视频平台（抖音/小红书）：AI赋能内容引流+多元转化模式</a></li><li class="nav-item"><a href="#s-33" class="nav-link nav-level-3">3.2.3 微信生态（公众号/视频号）：AI赋能深度内容+高价值服务模式</a></li><li class="nav-item"><a href="#s-34" class="nav-link nav-level-3">3.2.4 专业医疗AI平台：IP入驻+AI协同服务模式</a></li><li class="nav-item"><a href="#s-35" class="nav-link nav-level-3">3.2.5 互联网医院平台：人机协同的高效诊疗模式</a></li><li class="nav-item"><a href="#s-36" class="nav-link nav-level-3">3.2.6 高净值垂直赛道：医美与牙科AI的获客与转化</a></li><li class="nav-item"><a href="#s-37" class="nav-link nav-level-3">3.2.7 全域经营：跨平台矩阵与流量闭环模式</a></li><li class="nav-item"><a href="#s-38" class="nav-link nav-level-3">3.2.8 典型平台与变现模式横向对比（总结）</a></li><li class="nav-item"><a href="#s-39" class="nav-link nav-level-2">3.3 新中式养生与衍生品经济 (New Chinese Style Wellness)</a></li><li class="nav-item"><a href="#s-40" class="nav-link nav-level-3">3.3.1 中药茶饮与“熬夜水”：同仁堂知嘛健康的破圈</a></li><li class="nav-item"><a href="#s-41" class="nav-link nav-level-3">3.3.2 中药零食化：东阿阿胶“桃花姬”</a></li><li class="nav-item"><a href="#s-42" class="nav-link nav-level-3">3.3.3 “妆药同源”：片仔癀与薇诺娜</a></li><li class="nav-item"><a href="#s-43" class="nav-link nav-level-2">3.4 个人IP与医疗AI平台融合的关键成功要素</a></li><li class="nav-item"><a href="#s-44" class="nav-link nav-level-2">3.5 未来形态：AI数字分身与7x24h诊室</a></li><li class="nav-item"><a href="#s-45" class="nav-link nav-level-1">4. “点点专家”自有平台战略路线图 (Proprietary Platform Roadmap)</a></li><li class="nav-item"><a href="#s-46" class="nav-link nav-level-2">4.1 第一阶段：AI分身驱动的服务型平台 (Phase 1: The AI Platform)</a></li><li class="nav-item"><a href="#s-47" class="nav-link nav-level-2">4.2 第二阶段：严肃医疗服务的“平台化交付” (Phase 2: Service Delivery)</a></li><li class="nav-item"><a href="#s-48" class="nav-link nav-level-3">4.2.1 合规红线必读 (关键分析)</a></li><li class="nav-item"><a href="#s-49" class="nav-link nav-level-3">4.2.2 挂号与问诊的落地策略 (Implementation Strategy)</a></li><li class="nav-item"><a href="#s-50" class="nav-link nav-level-4">方案 A：重资产 - 自建医院</a></li><li class="nav-item"><a href="#s-51" class="nav-link nav-level-4">方案 B：轻资产 - SaaS挂靠（强烈推荐）</a></li><li class="nav-item"><a href="#s-52" class="nav-link nav-level-3">4.2.3 双层服务体系</a></li><li class="nav-item"><a href="#s-53" class="nav-link nav-level-4">L1：AI轻服务</a></li><li class="nav-item"><a href="#s-54" class="nav-link nav-level-4">L2：真人重服务</a></li><li class="nav-item"><a href="#s-55" class="nav-link nav-level-2">4.3 第三阶段：自有品牌的新中式消费生态 (Phase 3: Brand Ecosystem)</a></li><li class="nav-item"><a href="#s-56" class="nav-link nav-level-2">4.4 总结：从AI工具到商业闭环</a></li></ul>
+    <ul class="nav-menu"><li class="nav-item level-1 has-child expanded">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-0" class="nav-link nav-level-1">1. 行业分析</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-2  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-1" class="nav-link nav-level-2">1.1 全球与中国医疗AI市场整体态势</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-2  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-2" class="nav-link nav-level-2">1.2 中国医疗AI大模型市场分析</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-2  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-3" class="nav-link nav-level-2">1.3 技术与政策核心趋势</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-1 has-child expanded">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-4" class="nav-link nav-level-1">2. 重点医疗大模型及相关平台分析、商业模式</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-2 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-5" class="nav-link nav-level-2">2.1 互联网生态巨头 (Internet Ecosystem Giants)</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-6" class="nav-link nav-level-3">2.1.1 百度灵医智惠（Baidu Lingyi）：搜索入口+AI基建</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-7" class="nav-link nav-level-3">2.1.2 腾讯健康（Tencent Health）：社交连接+微信生态</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-8" class="nav-link nav-level-3">2.1.3 蚂蚁医疗大模型矩阵（Ant Medical Matrix）：支付+信用+AI</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-9" class="nav-link nav-level-3">2.1.4 京东健康（JD Health）：供应链+服务闭环</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-10" class="nav-link nav-level-3">2.1.5 字节跳动小荷健康（Xiaohe Health）：算法+内容闭环</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-2 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-11" class="nav-link nav-level-2">2.2 硬科技与国家队 (Tech Infrastructure & National Team)</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-12" class="nav-link nav-level-3">2.2.1 华为盘古（Huawei Pangu）：算力+制药</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-13" class="nav-link nav-level-3">2.2.2 讯飞星火医疗大模型（iFlytek）：语音交互+国家队</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-14" class="nav-link nav-level-3">2.2.3 百川智能（Baichuan）：医疗大模型独角兽</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-2 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-15" class="nav-link nav-level-2">2.3 互联网医疗服务平台 (Vertical Service Platforms)</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-16" class="nav-link nav-level-3">2.3.1 平安健康（PingAn Health）：保险+家庭医生</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-17" class="nav-link nav-level-3">2.3.2 春雨医生（Chunyu Doctor）：极速问诊</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-18" class="nav-link nav-level-3">2.3.3 好大夫在线（HaoDF）：专业转诊</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-2 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-19" class="nav-link nav-level-2">2.4 垂直创新与细分专家 (Specialized Innovators)</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-20" class="nav-link nav-level-3">2.4.1 问止中医（Wenzhi）：中医大脑</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-21" class="nav-link nav-level-3">2.4.2 博睿康（BrainCo）：脑机接口康复</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-22" class="nav-link nav-level-3">2.4.3 点点专家（DianDian）：心理健康数字分身</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-2 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-23" class="nav-link nav-level-2">2.5 综述：行业竞争格局与生态对比</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-24" class="nav-link nav-level-3">2.5.1 中国医疗AI大模型竞争格局总结</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-25" class="nav-link nav-level-3">2.5.2 四大流量生态医疗闭环终极对比 (The "Big Four")</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li></ul></li><li class="nav-item level-1 has-child expanded">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-26" class="nav-link nav-level-1">3. 个人IP与平台结合的变现模式与经典案例</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-2 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-27" class="nav-link nav-level-2">3.1 核心逻辑与商业全景 (Core Logic & Panorama)</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-28" class="nav-link nav-level-3">3.1.1 医疗健康领域个人IP变现核心逻辑</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-29" class="nav-link nav-level-3">3.1.2 商业模式全景图：四大阵营的变现逻辑</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-2 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-30" class="nav-link nav-level-2">3.2 典型平台与变现模式深度解析（含AI介入场景）</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-31" class="nav-link nav-level-3">3.2.1 知识星球：AI赋能私域社群与付费订阅模式</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-32" class="nav-link nav-level-3">3.2.2 短视频平台（抖音/小红书）：AI赋能内容引流+多元转化模式</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-33" class="nav-link nav-level-3">3.2.3 微信生态（公众号/视频号）：AI赋能深度内容+高价值服务模式</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-34" class="nav-link nav-level-3">3.2.4 专业医疗AI平台：IP入驻+AI协同服务模式</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-35" class="nav-link nav-level-3">3.2.5 互联网医院平台：人机协同的高效诊疗模式</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-36" class="nav-link nav-level-3">3.2.6 高净值垂直赛道：医美与牙科AI的获客与转化</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-37" class="nav-link nav-level-3">3.2.7 全域经营：跨平台矩阵与流量闭环模式</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-38" class="nav-link nav-level-3">3.2.8 典型平台与变现模式横向对比（总结）</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-2 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-39" class="nav-link nav-level-2">3.3 新中式养生与衍生品经济 (New Chinese Style Wellness)</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-40" class="nav-link nav-level-3">3.3.1 中药茶饮与“熬夜水”：同仁堂知嘛健康的破圈</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-41" class="nav-link nav-level-3">3.3.2 中药零食化：东阿阿胶“桃花姬”</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-42" class="nav-link nav-level-3">3.3.3 “妆药同源”：片仔癀与薇诺娜</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-2  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-43" class="nav-link nav-level-2">3.4 个人IP与医疗AI平台融合的关键成功要素</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-2  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-44" class="nav-link nav-level-2">3.5 未来形态：AI数字分身与7x24h诊室</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-1 has-child expanded">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-45" class="nav-link nav-level-1">4. “点点专家”自有平台战略路线图 (Proprietary Platform Roadmap)</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-2  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-46" class="nav-link nav-level-2">4.1 第一阶段：AI分身驱动的服务型平台 (Phase 1: The AI Platform)</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-2 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-47" class="nav-link nav-level-2">4.2 第二阶段：严肃医疗服务的“平台化交付” (Phase 2: Service Delivery)</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-3  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-48" class="nav-link nav-level-3">4.2.1 合规红线必读 (关键分析)</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-3 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-49" class="nav-link nav-level-3">4.2.2 挂号与问诊的落地策略 (Implementation Strategy)</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-4  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-50" class="nav-link nav-level-4">方案 A：重资产 - 自建医院</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-4  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-51" class="nav-link nav-level-4">方案 B：轻资产 - SaaS挂靠（强烈推荐）</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li><li class="nav-item level-3 has-child ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-52" class="nav-link nav-level-3">4.2.3 双层服务体系</a>
+                    <span class="nav-toggle">▶ </span>
+                </div><ul class="nav-group"><li class="nav-item level-4  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-53" class="nav-link nav-level-4">L1：AI轻服务</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-4  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-54" class="nav-link nav-level-4">L2：真人重服务</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></ul></li></ul></li><li class="nav-item level-2  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-55" class="nav-link nav-level-2">4.3 第三阶段：自有品牌的新中式消费生态 (Phase 3: Brand Ecosystem)</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li><li class="nav-item level-2  ">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#s-56" class="nav-link nav-level-2">4.4 总结：从AI工具到商业闭环</a>
+                    <span class="nav-toggle" style="width:24px;display:inline-block"></span>
+                </div></li></ul></li></ul>
 </nav>
 <main class="main-content">
     <h1 class="report-title">中国医疗AI大模型行业深度研究报告</h1>
@@ -571,5 +857,13 @@ figcaption { color: #718096; margin-top: 1rem; font-style: italic; }
 <h3>4.4 总结：从AI工具到商业闭环</h3>
 <p>“点点专家”的终局不是一个账号，而是一座<strong>“数字医疗商城”</strong>。通过AI分身（留住用户）、医疗调度（解决刚需）、自有品牌（释放利润），构建不可复制的商业护城河。</p>
 </main>
+<script>
+    function toggleNav(element) {
+        const li = element.parentElement;
+        if (li.classList.contains('has-child')) {
+            li.classList.toggle('expanded');
+        }
+    }
+</script>
 </body>
 </html>

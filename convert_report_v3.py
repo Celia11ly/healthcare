@@ -66,9 +66,9 @@ body {
     border-radius: 6px;
     transition: all 0.2s;
     font-size: 0.9rem;
-    border-left: 3px solid transparent;
+    border-left: 3px solid transparent; /* Be careful not to double borders with specific level classes */
 }
-.nav-link:hover { background-color: #F7FAFC; color: var(--primary); }
+.nav-link:hover { background-color: #F7FAFC; /* Subtler hover for generic */ }
 
 /* Level 1: Main Chapters */
 .nav-level-1 {
@@ -78,8 +78,9 @@ body {
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
     background-color: #EBF8FF;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-radius: 6px;
+    border-left: 5px solid #2B6CB0; /* Stronger L1 marker */
 }
 
 /* Level 2: Sub-sections */
@@ -87,22 +88,78 @@ body {
     font-weight: 600;
     font-size: 0.9rem;
     color: #2D3748;
-    margin-left: 0.5rem;
-    padding-left: 10px;
+    margin-left: 1rem; /* Indent L2 block */
+    padding-left: 12px;
     border-left: 2px solid #CBD5E0;
 }
-.nav-link.nav-level-2:hover { border-left-color: var(--secondary); }
+.nav-link.nav-level-2:hover { border-left-color: var(--secondary); background-color: #F7FAFC; }
 
 /* Level 3: Details */
-.nav-level-3 {
+.nav-link.nav-level-3 {
     font-weight: 400;
-    font-size: 0.85rem;
-    color: #718096;
-    margin-left: 1.2rem;
-    padding-left: 10px;
-    border-left: 1px dashed #CBD5E0;
+    font-size: 0.8rem !important; /* Force smaller size */
+    color: #64748B; /* Slate 500 - Distinct from L2 */
+    margin-left: 0; 
+    padding-left: 3.5rem; /* Large indent for L3 */
+    border-left: none;
 }
-.nav-link.nav-level-3:hover { color: var(--h4-color); }
+.nav-link.nav-level-3:hover { color: var(--h4-color); background-color: #F0FFF4; }
+
+
+/* Collapsible Nav Styles */
+.nav-group {
+    display: none;
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+    transition: all 0.3s ease;
+}
+
+.nav-item.expanded > .nav-group {
+    display: block;
+}
+
+.nav-item-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 0;
+    cursor: pointer;
+    width: 100%;
+}
+
+.nav-link {
+    flex: 1; /* Take up remaining space */
+    text-align: left;
+    display: block;
+    text-decoration: none;
+    color: #4A5568;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+}
+
+.nav-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #A0AEC0;
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+    margin-left: 4px; /* Changed from margin-right */
+}
+
+.nav-item.expanded > .nav-item-container .nav-toggle {
+    transform: rotate(90deg);
+}
+
+.nav-group .nav-link {
+    border-left: none !important;
+}
 
 
 /* ---------------- Main Content ---------------- */
@@ -123,6 +180,7 @@ body {
     font-weight: 900;
     background: linear-gradient(135deg, var(--primary) 0%, #2B6CB0 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -344,11 +402,52 @@ def generate():
     with open(SOURCE_FILE, 'r') as f: text = f.read()
     body, toc, title = parse_markdown(text)
     
-    nav = '<ul class="nav-menu">'
-    for item in toc:
-        cls = f"nav-level-{item['level']}"
-        nav += f'<li class="nav-item"><a href="#{item["id"]}" class="nav-link {cls}">{item["title"]}</a></li>'
-    nav += '</ul>'
+    # Build Nested Nav
+    nav_html = '<ul class="nav-menu">'
+    
+    if not toc:
+        nav_html += '</ul>'
+    else:
+        last_level = 0
+        
+        for i, item in enumerate(toc):
+            level = item['level']
+            
+            # Look ahead for children
+            has_children = False
+            if i + 1 < len(toc):
+                if toc[i+1]['level'] > level:
+                    has_children = True
+            
+            if level > last_level:
+                if last_level != 0: 
+                     nav_html += f'<ul class="nav-group">'
+            elif level < last_level:
+                step_down = last_level - level
+                nav_html += ('</ul></li>' * step_down)
+            else:
+                if last_level != 0:
+                     nav_html += '</li>'
+            
+            arrow = '▶ ' if has_children else ''
+            # Expand Level 1 by default
+            is_expanded = (level == 1)
+            expand_class = "expanded" if is_expanded else ""
+            
+            arrow_html = f'<span class="nav-toggle">{arrow}</span>' if has_children else '<span class="nav-toggle" style="width:24px;display:inline-block"></span>'
+            
+            nav_html += f'''<li class="nav-item level-{level} {('has-child' if has_children else '')} {expand_class}">
+                <div class="nav-item-container" onclick="toggleNav(this)">
+                    <a href="#{item["id"]}" class="nav-link nav-level-{level}">{item["title"]}</a>
+                    {arrow_html}
+                </div>'''
+            
+            last_level = level
+        
+        if last_level > 0:
+            nav_html += ('</li></ul>' * (last_level - 1)) + '</li>'
+
+    nav_html += '</ul>'
     
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -363,12 +462,20 @@ def generate():
     <div class="nav-header">
         <div class="nav-title">行业洞察 2026</div>
     </div>
-    {nav}
+    {nav_html}
 </nav>
 <main class="main-content">
     <h1 class="report-title">{title}</h1>
     {body}
 </main>
+<script>
+    function toggleNav(element) {{
+        const li = element.parentElement;
+        if (li.classList.contains('has-child')) {{
+            li.classList.toggle('expanded');
+        }}
+    }}
+</script>
 </body>
 </html>"""
     
